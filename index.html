@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tackboard — a local Pinterest publishing tool</title>
+<meta name="description" content="Tackboard is a local command-line tool that publishes Pins to a single Pinterest account through the official Pinterest API v5. Keyword research, image generation and publishing all run on the operator's own machine.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="logo.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1c1c1e;
+    --muted: #5a5a63;
+    --rule: #e2e2e7;
+    --accent: #0b5cad;
+    --card: #f7f8fa;
+    --code-bg: #f4f5f7;
+    --note-bg: #f4f7fb;
+    --note-rule: #c8d8ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101014;
+      --fg: #e6e6ea;
+      --muted: #a2a2ad;
+      --rule: #2b2b33;
+      --accent: #7fb4ee;
+      --card: #17171d;
+      --code-bg: #1b1b21;
+      --note-bg: #161b23;
+      --note-rule: #2f3d52;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.75rem; }
+  header img { width: 64px; height: 64px; border-radius: 16px; flex: none; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0; }
+  .tagline { color: var(--muted); margin: .15rem 0 0; font-size: .95rem; }
+  h2 { font-size: 1.25rem; margin: 2.4rem 0 .5rem; padding-bottom: .3rem; border-bottom: 1px solid var(--rule); }
+  p { margin: .8rem 0; }
+  ul, ol { margin: .8rem 0; padding-left: 1.35rem; }
+  li { margin: .35rem 0; }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .88em;
+    background: var(--code-bg);
+    padding: .12em .38em;
+    border-radius: 4px;
+  }
+  .note {
+    background: var(--note-bg);
+    border: 1px solid var(--note-rule);
+    border-radius: 8px;
+    padding: .85rem 1.1rem;
+    margin: 1.4rem 0;
+    font-size: .96rem;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 600; }
+  footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <img src="logo.png" alt="Tackboard logo">
+  <div>
+    <h1>Tackboard</h1>
+    <p class="tagline">A local publishing tool for one Pinterest account</p>
+  </div>
+</header>
+
+<p>Tackboard is a command-line tool that runs on the operator's own computer. It collects
+long-tail keywords, writes Pin titles and descriptions, draws 1000&times;1500 Pin images, checks
+each Pin against Pinterest's field limits, and publishes the finished Pins through the official
+Pinterest API v5. There is no server and no third-party backend: every step runs locally, and the
+only credential it holds is an OAuth access token that the account owner grants on Pinterest's own
+authorization page.</p>
+
+<p>Tackboard asks for a Pinterest password exactly never, and it does not use browser automation,
+scraping, or Pinterest's internal endpoints. Everything it publishes goes through the documented
+public API.</p>
+
+<h2>What it does</h2>
+
+<table>
+  <tr><th>Stage</th><th>What happens</th></tr>
+  <tr>
+    <td>Research</td>
+    <td>Collects keyword candidates from public search-engine autocomplete endpoints (Google, Bing,
+    DuckDuckGo) and scores them. Results are cached on disk.</td>
+  </tr>
+  <tr>
+    <td>Plan</td>
+    <td>Turns keywords into a list of Pins: title, description, alt text, board, and destination
+    link. Duplicate titles, descriptions and links are rejected here.</td>
+  </tr>
+  <tr>
+    <td>Render</td>
+    <td>Draws the Pin image locally at 1000&times;1500 (2:3), keeping all text inside Pinterest's
+    safe zone, and optionally composites a product photo.</td>
+  </tr>
+  <tr>
+    <td>Check &amp; publish</td>
+    <td>Runs a pre-publish check for title, description, alt-text and textbox length, required
+    disclosures, and duplicate content, then creates the Pins with
+    <code>POST /v5/pins</code>.</td>
+  </tr>
+</table>
+
+<p>Publishing can be split from preparation. <code>prepare</code> produces the day's plan and
+images and stops; the operator reviews them and removes anything unwanted; only then does the
+scheduled run publish the reviewed plan. The operator therefore chooses each Pin that goes out.</p>
+
+<h2>Pinterest API scopes, and why each is needed</h2>
+
+<ul>
+  <li><code>boards:read</code> — to list the account's boards so a Pin can be filed on the right
+  one.</li>
+  <li><code>boards:write</code> — to create a board when the right one does not exist yet.</li>
+  <li><code>pins:read</code> — to confirm that a Pin was created, and to avoid publishing the
+  same Pin twice.</li>
+  <li><code>pins:write</code> — to create the Pin itself, which is the whole purpose of the
+  tool.</li>
+  <li><code>user_accounts:read</code> — to read the account's own profile so the operator can
+  confirm the connection is healthy before a publishing run.</li>
+</ul>
+
+<p>No advertising, catalog, billing, business-access or secret-board scopes are requested. A
+separate <code>secret</code> preset exists in the tool for operators who genuinely need secret
+boards, but it is not used by default and is not requested during this app's authorization.</p>
+
+<h2>How data is handled</h2>
+
+<p>Nothing is uploaded to a server owned by the operator or by anyone else. The OAuth token, the
+keyword cache, the plan files, and the generated images stay in the tool's own folder on the
+operator's machine. Pinterest API responses are used in memory for the current run and are not
+kept as a separate store; the one exception is the numeric ID of a Pin the tool created itself,
+which is kept only to keep later runs from publishing a duplicate and to let the tool find its own
+Pins again.</p>
+
+<p>The tool writes an affiliate disclosure sentence into every Pin description, marks
+AI-modified images with Pinterest's <code>ai_disclosures</code> field, and refuses to publish a
+Pin whose disclosure is missing.</p>
+
+<p>Full detail is in the <a href="privacy.html">privacy policy</a>.</p>
+
+<h2>How to get access</h2>
+
+<p>Tackboard is a single-operator tool: it is connected to one Pinterest account, belonging to the
+person who runs it, and it is not offered as a service to other Pinterest users. It is not
+distributed on an app store and it does not accept sign-ups.</p>
+
+<h2>Contact</h2>
+
+<p>Questions about the tool, the scopes, or the data it holds can be sent to
+<a href="mailto:seiseimelon@gmail.com">seiseimelon@gmail.com</a>.</p>
+
+<footer>
+  Tackboard is an independent tool. It is not affiliated with, endorsed by, or sponsored by
+  Pinterest. &middot; <a href="privacy.html">Privacy policy</a>
+</footer>
+
+</main>
+</body>
+</html>

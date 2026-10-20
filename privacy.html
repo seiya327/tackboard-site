@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Tackboard</title>
+<meta name="description" content="Privacy policy for Tackboard, a local command-line tool that publishes Pins to a single Pinterest account through the Pinterest API v5.">
+<meta name="robots" content="index, follow">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1c1c1e;
+    --muted: #5a5a63;
+    --rule: #e2e2e7;
+    --accent: #0b5cad;
+    --code-bg: #f4f5f7;
+    --code-fg: #24242a;
+    --note-bg: #f4f7fb;
+    --note-rule: #c8d8ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101014;
+      --fg: #e6e6ea;
+      --muted: #a2a2ad;
+      --rule: #2b2b33;
+      --accent: #7fb4ee;
+      --code-bg: #1b1b21;
+      --code-fg: #dcdce2;
+      --note-bg: #161b23;
+      --note-rule: #2f3d52;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  h1 { font-size: 1.9rem; line-height: 1.25; margin: 0 0 .25rem; }
+  h2 { font-size: 1.25rem; margin: 2.4rem 0 .5rem; padding-bottom: .3rem; border-bottom: 1px solid var(--rule); }
+  h3 { font-size: 1.02rem; margin: 1.6rem 0 .3rem; }
+  p { margin: .7rem 0; }
+  ul, ol { margin: .7rem 0; padding-left: 1.35rem; }
+  li { margin: .35rem 0; }
+  .subtitle { color: var(--muted); margin: 0 0 .4rem; font-size: 1rem; }
+  .meta { color: var(--muted); font-size: .92rem; margin: .2rem 0; }
+  .updated { color: var(--muted); font-size: .9rem; margin: 1.2rem 0 0; }
+  code { background: var(--code-bg); color: var(--code-fg); padding: .1em .35em; border-radius: 4px; font-size: .9em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  pre { background: var(--code-bg); color: var(--code-fg); padding: .9rem 1rem; border-radius: 6px; overflow-x: auto; font-size: .88rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; }
+  .note { background: var(--note-bg); border-left: 3px solid var(--note-rule); padding: .8rem 1rem; margin: 1.1rem 0; border-radius: 0 6px 6px 0; }
+  .note p:first-child { margin-top: 0; }
+  .note p:last-child { margin-bottom: 0; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0 1.5rem; }
+  footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
+  @media print { body { padding: 0; } .note { border: 1px solid #ccc; } }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Privacy Policy</h1>
+<p class="subtitle">Tackboard — a local tool for publishing Pins to a Pinterest account</p>
+<p class="meta">Operator: seiya327</p>
+<p class="meta">Contact: seiseimelon@gmail.com</p>
+<p class="meta">Policy published at: https://seiya327.github.io/tackboard-site/privacy.html</p>
+<p class="updated">Last updated: 20 October 2026 &middot; Effective date: 20 October 2026</p>
+
+<div class="note">
+<p><strong>In one sentence:</strong> Tackboard runs entirely on the operator's own computer, has no server and no analytics, and the only Pinterest data it writes to disk is the identifier of a Pin it created itself.</p>
+</div>
+
+<h2>1. Scope of this policy</h2>
+<p>This policy covers Tackboard, a command-line application that creates boards and Pins on a Pinterest account through the Pinterest API v5. Tackboard is operated by a single individual and is used to publish that individual's own content. There is no hosted version of the application, no sign-up, and no third-party service that operates Tackboard on the operator's behalf.</p>
+<p>Tackboard is an independent application. It is not affiliated with, endorsed by or sponsored by Pinterest. Pinterest's own privacy policy governs the Pinterest account and the Pinterest service, and applies separately to any data Pinterest receives through the API.</p>
+
+<h2>2. What Tackboard is</h2>
+<p>Tackboard runs four local stages. It collects search keywords from public search-engine autocomplete endpoints, drafts a pin plan from a chosen keyword, composes a 1000&times;1500 pin image and its text locally, and publishes the result to the operator's Pinterest account with a single API call. The operator can run each stage separately and inspect the output before anything is published.</p>
+
+<h2>3. Information the application collects</h2>
+<p>All collection happens on the operator's own machine, and every item in this list is either a credential the operator issued or content the operator created.</p>
+<h3>3.1 OAuth credentials</h3>
+<p>The application stores the Pinterest app id, the app secret, the OAuth access token and the OAuth refresh token in a local file named <code>secrets.yaml</code> in the project directory. That file is excluded from version control and, where the operating system supports it, its permissions are restricted to the owner. No Pinterest password, no Pinterest session cookie and no other login credential is ever requested, read or stored.</p>
+<h3>3.2 Content the operator creates</h3>
+<p>The application writes the keyword lists, niche scores and pin plans that the operator generates to JSON and CSV files inside the project directory, together with the rendered pin images and the command logs produced by the scheduled task. The pin plan contains the locally generated title, description, alt text and outbound link, the identifier of the Pin the application created, and the status of that Pin. It does not contain the content of any other Pin, board or account.</p>
+<h3>3.3 Affiliate and product identifiers</h3>
+<p>The operator may configure identifiers for an external affiliate programme, such as a Rakuten affiliate id, an Amazon Associates partner tag or Awin identifiers, together with a product list in CSV or JSON format. These are supplied by the operator and stored locally in the configuration file and in the product list.</p>
+
+<h2>4. Information the application does not collect</h2>
+<p>Tackboard does not collect, request, receive or transmit:</p>
+<ul>
+<li>your Pinterest username, password, email address or session cookies;</li>
+<li>the content of Pins, boards, profiles, followers or analytics belonging to any Pinterest account other than the one the operator authorizes, and in practice it does not retain that content for its own account either;</li>
+<li>contact lists, location data, device identifiers, advertising identifiers, or behavioural or usage data about the operator or any visitor to a website, because the application is not a website and has no telemetry, analytics or crash-reporting component;</li>
+<li>information from children under the age of 13. The application is not directed at children and is not intended for use by them.</li>
+</ul>
+<p>Tackboard also never scrapes Pinterest, and it never uses Pinterest to target people with advertising outside Pinterest.</p>
+
+<h2>5. Pinterest API responses are not stored</h2>
+<p>The Pinterest Developer Guidelines state that, apart from campaign analytics information accessed about your own account, you may not store any information accessed through any Pinterest Materials including the API, and that you should call the API each time you need the information. Tackboard is built to that rule.</p>
+<p>Read endpoints are used transiently. The responses from <code>GET /v5/boards</code>, <code>GET /v5/boards/{board_id}/pins</code>, <code>GET /v5/pins/{pin_id}</code> and <code>GET /v5/user_account</code> are held in memory for the length of a single command, used to resolve a board id, to confirm that a newly created Pin exists, or to print a status line for the operator. They are not written to the application's data files, and they are not sent anywhere.</p>
+<div class="note">
+<p><strong>The single exception, stated plainly:</strong> the application writes the identifier of a Pin it created itself into its local plan file. The identifier is used for two purposes only: to avoid publishing the same Pin twice, and to allow the application to delete its own Pins on request. No Pin title, description, image, link or board content returned by the API is persisted.</p>
+</div>
+
+<h2>6. How information is used</h2>
+<p>Information is used only to operate the publishing workflow: the tokens authenticate API calls, the keyword and product lists are the inputs the operator chose, the generated images and text become the Pin, and the logs are kept so the operator can review what ran. The information is not used for advertising, profiling, reselling, model training or any other purpose, and it is not combined with data from any other service.</p>
+
+<h2>7. Sharing and third parties</h2>
+<p>Tackboard shares nothing with third parties. The data that leaves the operator's computer is limited to the requests the operator has configured:</p>
+<ul>
+<li><strong>Pinterest</strong> receives the board and Pin data described in this policy, and receives the outbound link and the affiliate parameters attached to it.</li>
+<li><strong>Search engines</strong> (Google, Bing, DuckDuckGo) receive the seed and expanded keyword queries used during the research stage. These are ordinary search queries and are not linked to any Pinterest account.</li>
+<li><strong>Affiliate and product networks</strong> (for example Rakuten, Amazon Associates, Awin) receive a product search request, and later receive a click on an affiliate link if a reader follows one.</li>
+<li><strong>An optional language model provider</strong> receives a keyword and a short product title when the operator enables the optional copy-generation mode. This mode is off by default and the provider is chosen by the operator.</li>
+</ul>
+
+<h2>8. Affiliate disclosure and advertising compliance</h2>
+<p>The Pins produced by this application are commercial content. Every description includes a clear disclosure that the links are affiliate links and that a commission may be earned at no extra cost to the reader. The application refuses to publish a pin whose description is missing that sentence, so a non-compliant pin cannot be sent by the application. The disclosure text currently reads: &ldquo;Affiliate disclosure: some links are affiliate links and we may earn a commission at no extra cost to you.&rdquo;</p>
+<p>Outbound links carry UTM parameters, namely <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code> and <code>utm_content</code>, so the operator can measure which pin produced a click. The application does not generate shortened URLs, because Pinterest does not support them. The operator is responsible for complying with the disclosure rules that apply to them, including the US Federal Trade Commission endorsement guides, and the application supports that obligation by making the disclosure automatic rather than optional.</p>
+
+<h2>9. AI-generated content</h2>
+<p>Pin images are composed programmatically by the application rather than photographed by the operator. Every pin it creates is therefore submitted to Pinterest with the <code>ai_disclosures</code> field set to <code>AI_MODIFIED</code>, which is the label Pinterest provides for a creative altered by an automated tool. Tackboard does not generate photorealistic images of people, does not imitate any individual's likeness, and does not create images designed to deceive.</p>
+
+<h2>10. Retention</h2>
+<p>OAuth tokens remain in <code>secrets.yaml</code> until they are refreshed, revoked by the operator, or deleted. The operator can delete the file at any time; after that the application cannot call the API until the authorization flow is repeated. Plan files, keyword files, product lists and logs are kept only as long as the operator keeps them on disk, and the operator can delete them individually or delete the whole project directory. The application uploads nothing to a backup service, a cloud drive or any other remote store.</p>
+
+<h2>11. Your rights and how to exercise them</h2>
+<p>Because the application is local and single-user, the fastest way to exercise any right over the data is to act on the machine that holds it.</p>
+<h3>Access</h3>
+<p>The operator can inspect everything the application holds by opening <code>secrets.yaml</code> and the JSON and CSV files in the project directory, and can have the application list the boards and Pins on the authorized Pinterest account with the <code>boards</code> and <code>pins</code> commands.</p>
+<h3>Deletion</h3>
+<p>To remove local data, delete the file or directory in question. To remove the tokens, delete <code>secrets.yaml</code>. To remove Pins or boards that the application created on Pinterest, delete them from Pinterest, or use the application's delete call for a pin it created. To withdraw the authorization itself, use the account settings on Pinterest or the My apps page on the Pinterest developer portal; the application will then receive an authentication error on every call.</p>
+<h3>Contact</h3>
+<p>Requests about this policy, about the data the application holds, or about the Pinterest account involved can be sent to <strong>seiseimelon@gmail.com</strong>. The operator aims to respond within a few business days. A request can also be raised with Pinterest directly, through the Pinterest Help Center, if it concerns data Pinterest itself holds.</p>
+
+<h2>12. Security</h2>
+<p>Credentials are kept in a single local file that is excluded from version control, and file permissions are restricted to the owner where the operating system supports it. The application makes no outbound request other than to the services listed in section 7, and it does not transmit credentials to any of them except to Pinterest, where they are required. The application does not attempt to evade Pinterest's rate limits, and it treats a 429 response as a signal to wait rather than as an obstacle to route around.</p>
+
+<h2>13. Changes to this policy</h2>
+<p>This policy may be updated as the application changes. The date at the top of the page shows the last update, and the history of changes is kept with the project source. Material changes will be reflected in the description submitted to the Pinterest developer portal, because the two documents are reviewed together.</p>
+
+<footer>
+<p>Tackboard &middot; Privacy Policy &middot; Last updated 20 October 2026 &middot; seiya327</p>
+</footer>
+
+</main>
+</body>
+</html>
